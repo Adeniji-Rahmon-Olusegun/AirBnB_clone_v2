@@ -74,7 +74,7 @@ class FileStorage:
         if obj is None:
             return
 
-        del_obj = f"{obj.__class__.name__}.{obj.id}"
+        del_obj = f"{obj.__class__.__name__}.{obj.id}"
 
         try:
             del FileStorage.__objects[del_obj]
