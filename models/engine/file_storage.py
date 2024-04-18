@@ -1,14 +1,8 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
+
 import json
 from models.base_model import BaseModel
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
-
 
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
@@ -17,21 +11,13 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
 
         if cls is not None:
             if isinstance(cls, str):
                 cls = globals().get(cls)
             if cls and issubclass(cls, BaseModel):
                 new_dict = {key: v for key,
-                            v in self.__object.items() if isinstance(v, cls)}
+                            v in self.__objects.items() if isinstance(v, cls)}
                 return new_dict
 
         return FileStorage.__objects
