@@ -12,7 +12,7 @@ class State(BaseModel):
 
     name = Column(
         String(128), nullable=False
-    ) if os.getenv ("HBNB_TYPE_STORAGE") == "db" else ""
+    ) if os.getenv("HBNB_TYPE_STORAGE") == "db" else ""
 
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
         cities = relationship("City", cascade="all, delete", backref="state")
