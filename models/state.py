@@ -7,14 +7,13 @@ from models.base_model import BaseModel, Base
 
 class State(BaseModel):
     """ State class """
-    __table__ = "states"
+    __tablename__ = "states"
 
     name = Column(
         String(128), nullable=False
     ) if os.getenv ("HBNB_TYPE_STORAGE") == "db" else ""
 
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
-
         cities = relationship("City", cascade="all, delete", backref="state")
     else:
         @property
@@ -29,6 +28,6 @@ class State(BaseModel):
 
             for city in storage.all(City).values():
                 if city.state_id == self.id:
-                    cities_state.append(value)
+                    cities_states.append(city)
 
             return cities_states
