@@ -16,5 +16,5 @@ class City(BaseModel, Base):
     ) if os.getenv("HBNB_TYPE_STORAGE") == "db" else ""
 
     state_id = Column(
-        String(60), ForeignKey("state.id"), nullable=False
+        String(60), ForeignKey("states.id"), nullable=False
     ) if os.getenv("HBNB_TYPE_STORAGE") == "db" else ""
