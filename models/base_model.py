@@ -20,27 +20,26 @@ class BaseModel:
         if not kwargs:
             from models import storage
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
         else:
             for k, v in kwargs.items():
                 if k != "__class__":
-                    if k in ("created_at", "updated_at"):
-                        setattr(self, k, datetime.fromisoformat(v))
-                    else:
-                        setattr(self, k, v)
+                    if k in ("created_at", "updated_at") and isinstance(v, str):
+                        v = datetime.fromisoformat(v)
+                    setattr(self, k, v)
 
             if not hasattr(kwargs, "id"):
-                setattr(self, "id", str(uuid.uuid4()))
+                self.id = str(uuid.uuid4())
             if not hasattr(kwargs, "created_at"):
-                setattr(self, "created_at", datetime.now())
+                self.created_at = datetime.utcnow()
             if not hasattr(kwargs, "updated_at"):
-                setattr(self, "updated_at", datetime.now())
+                self.updated_at = datetime.utcnow()
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        return f"[{cls}] ({self.id}) {self.__dict__}"
     
     def delete(self):
         """ delete the current instance from the storage"""
