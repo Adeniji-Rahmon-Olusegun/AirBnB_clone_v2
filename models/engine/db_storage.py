@@ -5,12 +5,10 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-import urllib.parse
-
 from models.base_model import BaseModel, Base
+from models.state import State
 from models.user import User
 from models.city import City
-from models.state import State
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
@@ -38,9 +36,10 @@ class DBStorage:
 
     def all(self, cls=None):
         """Return a dictionary: (like FileStorage)"""
-        objs = {}
+        objs = dict()
 
-        classes = (User, State, City, Amenity, Place, Review)
+        #classes = (User, State, City, Amenity, Place, Review)
+        classes = (State, City)
 
         if cls is None:
             for class_ in classes:
@@ -79,18 +78,12 @@ class DBStorage:
 
     def reload(self):
         """Creates all tables in the database"""
-        from models.state import State
-        from models.city import City
-        from models.user import User
-        from models.place import Place
-        from models.amenity import Amenity
-        from models.review import Review
 
         Base.metadata.create_all(self.__engine)
 
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-
-        self.__session = scoped_session(Session)()
+        session_fac = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_fac)
+        self.__session = Session()
 
     def close(self):
         """closes the session"""
