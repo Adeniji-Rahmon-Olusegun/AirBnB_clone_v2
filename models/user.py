@@ -20,9 +20,9 @@ class User(BaseModel, Base):
     ) if os.getenv("HBNB_TYPE_STORAGE") == "db" else ""
 
     first_name = Column(
-        String(128), nullable=False
+        String(128), nullable=True
     ) if os.getenv("HBNB_TYPE_STORAGE") == "db" else ""
 
     last_name = Column(
-        String(128), nullable=False
+        String(128), nullable=True
     ) if os.getenv("HBNB_TYPE_STORAGE") == "db" else ""
