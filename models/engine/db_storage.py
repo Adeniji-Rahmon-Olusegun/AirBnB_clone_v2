@@ -39,7 +39,7 @@ class DBStorage:
         objs = dict()
 
         #classes = (User, State, City, Amenity, Place, Review)
-        classes = (State, City)
+        classes = (State, City, User)
 
         if cls is None:
             for class_ in classes:
